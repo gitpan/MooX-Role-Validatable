@@ -2,7 +2,7 @@ package MooX::Role::Validatable;
 
 use strict;
 use 5.008_005;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Moo::Role;
 use MooX::Role::Validatable::Error;
@@ -11,16 +11,17 @@ use Types::Standard qw( Str Int Bool ArrayRef );
 use Carp qw(confess);
 use Scalar::Util qw/blessed/;
 
-has [qw(_init_errors _validation_errors)] => (
+has '_init_errors' => (
     is       => 'ro',
     isa      => ArrayRef,
     init_arg => undef,
     default  => sub { return [] },
 );
-
-has validation_methods => (
-    is   => 'lazy',
-    isa  => ArrayRef[Str]
+has '_validation_errors' => (
+    is       => 'ro',
+    isa      => ArrayRef,
+    init_arg => undef,
+    default  => sub { return [] },
 );
 
 has 'error_class' => (is => 'ro', default => sub { 'MooX::Role::Validatable::Error' }, trigger => sub {
@@ -28,6 +29,11 @@ has 'error_class' => (is => 'ro', default => sub { 'MooX::Role::Validatable::Err
     eval "require $error_class;";
     confess $@ if $@;
 } );
+
+has validation_methods => (
+    is   => 'lazy',
+    isa  => ArrayRef[Str]
+);
 
 sub _build_validation_methods {
     my $self = shift;
@@ -99,8 +105,8 @@ sub _errfilter {
     $error = { message => $error } unless ref($error); # when it's a string
 
     confess "Cannot add validation error which is not blessed nor hashref" unless ref($error) eq 'HASH';
-    $error->{message_to_client} = $error->{message} unless $error->{message_to_client};
-    $error->{set_by} = caller(1) unless $error->{set_by};
+    $error->{message_to_client} = $error->{message} unless exists $error->{message_to_client};
+    $error->{set_by} = caller(1) unless exists $error->{set_by};
     return $self->error_class->new($error);
 }
 
