@@ -1,5 +1,5 @@
 ---
-abstract: 'Role to add validation to a class'
+abstract: 'Role to add validation to a class (Deprecated)'
 author:
   - 'Binary.com <fayland@binary.com>'
 build_requires:
@@ -23,6 +23,7 @@ no_index:
     - examples
 requires:
   Moo: 0
+  Moose: 0
   Scalar::Util: 0
   Type::Tiny: 0
   perl: 5.008005
@@ -30,6 +31,6 @@ resources:
   bugtracker: https://github.com/binary-com/perl-MooX-Role-Validatable/issues
   homepage: https://github.com/binary-com/perl-MooX-Role-Validatable
   repository: https://github.com/binary-com/perl-MooX-Role-Validatable.git
-version: 0.03
+version: 0.04
 x_contributors:
   - 'Jean-Yves Sireau <jy@binary.com>'

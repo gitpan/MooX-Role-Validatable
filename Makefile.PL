@@ -10,7 +10,7 @@ use ExtUtils::MakeMaker 6.30;
 
 
 my %WriteMakefileArgs = (
-  "ABSTRACT" => "Role to add validation to a class",
+  "ABSTRACT" => "Role to add validation to a class (Deprecated)",
   "AUTHOR" => "Binary.com <fayland\@binary.com>",
   "BUILD_REQUIRES" => {},
   "CONFIGURE_REQUIRES" => {
@@ -22,13 +22,14 @@ my %WriteMakefileArgs = (
   "NAME" => "MooX::Role::Validatable",
   "PREREQ_PM" => {
     "Moo" => 0,
+    "Moose" => 0,
     "Scalar::Util" => 0,
     "Type::Tiny" => 0
   },
   "TEST_REQUIRES" => {
     "Test::More" => "0.96"
   },
-  "VERSION" => "0.03",
+  "VERSION" => "0.04",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -37,6 +38,7 @@ my %WriteMakefileArgs = (
 
 my %FallbackPrereqs = (
   "Moo" => 0,
+  "Moose" => 0,
   "Scalar::Util" => 0,
   "Test::More" => "0.96",
   "Type::Tiny" => 0

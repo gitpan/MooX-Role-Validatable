@@ -1,5 +1,5 @@
 NAME
-    MooX::Role::Validatable - Role to add validation to a class
+    MooX::Role::Validatable - Role to add validation to a class (Deprecated)
 
 SYNOPSIS
         package MyClass;
@@ -45,6 +45,8 @@ SYNOPSIS
         }
 
 DESCRIPTION
+    deprecated. use MooseX::Role::Validatable
+
     MooX::Role::Validatable is a Moo/Moose role which provides a standard
     way to add validation to a class.
 

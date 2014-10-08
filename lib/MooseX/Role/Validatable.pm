@@ -1,11 +1,11 @@
-package MooX::Role::Validatable;
+package MooseX::Role::Validatable;
 
 use strict;
 use 5.008_005;
 our $VERSION = '0.04';
 
-use Moo::Role;
-use MooX::Role::Validatable::Error;
+use Moose::Role;
+use MooseX::Role::Validatable::Error;
 use Types::Standard qw( Str Int Bool ArrayRef );
 
 use Carp qw(confess);
@@ -24,15 +24,16 @@ has '_validation_errors' => (
     default  => sub { return [] },
 );
 
-has 'error_class' => (is => 'ro', default => sub { 'MooX::Role::Validatable::Error' }, trigger => sub {
+has 'error_class' => (is => 'ro', default => sub { 'MooseX::Role::Validatable::Error' }, trigger => sub {
     my $self = shift; my $error_class = $self->error_class;
     eval "require $error_class;";
     confess $@ if $@;
 } );
 
 has validation_methods => (
-    is   => 'lazy',
-    isa  => ArrayRef[Str]
+    is   => 'ro',
+    isa  => ArrayRef[Str],
+    lazy_build => 1,
 );
 
 sub _build_validation_methods {
@@ -111,7 +112,7 @@ sub _errfilter {
     return $self->error_class->new($error);
 }
 
-no Moo::Role;
+no Moose::Role;
 
 1;
 __END__
@@ -120,14 +121,14 @@ __END__
 
 =head1 NAME
 
-MooX::Role::Validatable - Role to add validation to a class (Deprecated)
+MooseX::Role::Validatable - Role to add validation to a class
 
 =head1 SYNOPSIS
 
     package MyClass;
 
-    use Moo;
-    with 'MooX::Role::Validatable';
+    use Moose;
+    with 'MooseX::Role::Validatable';
 
     has 'attr1' => (is => 'lazy');
 
@@ -168,9 +169,7 @@ MooX::Role::Validatable - Role to add validation to a class (Deprecated)
 
 =head1 DESCRIPTION
 
-B<deprecated>. use L<MooseX::Role::Validatable>
-
-MooX::Role::Validatable is a Moo/Moose role which provides a standard way to add validation to a class.
+MooseX::Role::Validatable is a Moo/Moose role which provides a standard way to add validation to a class.
 
 =head1 METHODS
 
@@ -192,7 +191,7 @@ run all those B<_validate_*> messages and returns true if no error found.
 
 An array of the errors currently noted. combined with B<all_init_errors> and B<all_validation_errors>
 
-all errors including below methods are instance of error_class, default to L<MooX::Role::Validatable::Error>
+all errors including below methods are instance of error_class, default to L<MooseX::Role::Validatable::Error>
 
 =head2 all_init_errors
 
@@ -221,7 +220,7 @@ you create and validate a lot of static objects.
 
 =head2 error_class
 
-default to L<MooX::Role::Validatable::Error>, override by
+default to L<MooseX::Role::Validatable::Error>, override by
 
     has '+error_class' => (is => 'ro', default => sub { 'My::Validatable::Error' });
 

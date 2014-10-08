@@ -1,6 +1,6 @@
-package MooX::Role::Validatable::Error;
+package MooseX::Role::Validatable::Error;
 
-use Moo;
+use Moose;
 use Types::Standard qw( Str Int Bool );
 
 has message => (
@@ -52,7 +52,9 @@ sub as_html {
     return $html;
 }
 
-no Moo;
+no Moose;
+__PACKAGE__->meta->make_immutable;
+
 1;
 __END__
 
@@ -60,13 +62,13 @@ __END__
 
 =head1 NAME
 
-MooX::Role::Validatable::Error - Base Error class for MooX::Role::Validatable (Deprecated)
+MooseX::Role::Validatable::Error - Base Error class for MooseX::Role::Validatable
 
 =head1 SYNOPSIS
 
-  use MooX::Role::Validatable;
+  use MooseX::Role::Validatable;
 
-    my $error = MooX::Role::Validatable::Error->new({
+    my $error = MooseX::Role::Validatable::Error->new({
         message           => 'Internal debug message.',            # Required
         message_to_client => 'Client-facing message',              # Required
         set_by            => 'Source of the error',                # Required; MAY default to caller(1)
@@ -77,8 +79,6 @@ MooX::Role::Validatable::Error - Base Error class for MooX::Role::Validatable (D
     });
 
 =head1 DESCRIPTION
-
-B<deprecated>. use L<MooseX::Role::Validatable::Error>
 
 Represents an error in validation
 
